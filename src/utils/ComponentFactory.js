@@ -1,31 +1,24 @@
 import React from 'react';
 
-import RowElement from '../components/RowElement/RowElement';
-import ButtonElement from '../components/ButtonElement/ButtonElement';
-import Card from '../containers/Draggable';
+import {RowElement, ButtonElement, TextElement} from '../containers/index';
 
 export default (element, index, $this) => {
     let component = null;
 
-    switch (element.type) {
-        case 'RowElement':
-            component = <RowElement key={index} />;
-            break;
-        case 'ButtonElement':
-            component = <ButtonElement key={index} />;
-            break;
-        case 'Card':
-            component = <Card
-                key={element.id}
-                index={index}
-                listId={$this.props.id}
-                element={element}
-                remove={$this.remove}
-                move={$this.move}
-            />;
-            break;
-        default:
-            break;
+    if (element && element.hasOwnProperty('type')) {
+        switch (element.type) {
+            case 'RowElement':
+                component = <RowElement key={element.id}/>;
+                break;
+            case 'ButtonElement':
+                component = <ButtonElement key={element.id}/>;
+                break;
+            case 'TextElement':
+                component = <TextElement/>;
+                break;
+            default:
+                break;
+        }
     }
 
     return component;

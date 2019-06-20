@@ -1,7 +1,9 @@
-import Row from '../components/RowElement/RowElement';
-import Button from '../components/ButtonElement/ButtonElement'
+import RowElement from '../components/RowElement/RowElement';
+import ButtonElement from '../components/ButtonElement/ButtonElement'
+import TextElement from '../components/TextElement/TextElement';
 
 export {
-    Row,
-    Button
+    RowElement,
+    ButtonElement,
+    TextElement
 }

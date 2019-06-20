@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {DragDropContext} from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+
 import Editor from './Editor/Editor';
 import ToolBar from './ToolBar/ToolBar';
 
@@ -9,16 +8,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import './App.css';
 
-
 class App extends Component {
 
     render() {
-
-        // Возможные элементы для DnD
-        const editorTools = [
-            {id: 1, text: "Item 1", type: 'Card'},
-            {id: 2, text: "Item 2", type: 'Card'},
-        ];
 
         // Изначальное состояние эелементов внутри редактора
         const initialState = [
@@ -34,14 +26,14 @@ class App extends Component {
                 className="simplify"
             >
                 <Col sm={4} md={4} lg={4} xl={4}>
-                    <ToolBar id={1} elements={editorTools}/>
+                    <ToolBar id={1} />
                 </Col>
                 <Col sm={8} md={8} lg={8} xl={8}>
-                    <Editor id={2} elements={initialState}/>
+                    <Editor id={2} items={initialState}/>
                 </Col>
             </Row>
         );
     }
 }
 
-export default DragDropContext(HTML5Backend)(App);
+export default App;

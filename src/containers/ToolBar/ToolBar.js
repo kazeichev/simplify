@@ -1,42 +1,60 @@
 import React, {Component} from 'react';
-import Draggable from '../Draggable';
 import './ToolBar.scss';
-import shortid from 'shortid';
 
+import shortid from 'shortid';
 import {Tabs, Tab} from "react-bootstrap";
-import update from "immutability-helper";
+import createComponent from "../../utils/ComponentFactory";
+
+import {applyDrag} from "../../utils/ApplyDrag";
+import {Container, Draggable} from 'react-smooth-dnd';
 
 class ToolBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            elements: props.elements
-        };
-
-        this.updateId = this.updateId.bind(this);
-    }
-
-    updateId(element) {
-        this.setState(update(this.state, {
-            elements: {
-                $merge: element
-            }
-        }));
+            items: [
+                {
+                    id: shortid.generate(),
+                    type: 'TextElement',
+                    options: {}
+                },
+                {
+                    id: shortid.generate(),
+                    type: 'ButtonElement',
+                    options: {}
+                },
+                {
+                    id: shortid.generate(),
+                    type: 'RowElement',
+                    options: {}
+                }
+            ]
+        }
     }
 
     render() {
-        const {elements} = this.state;
         return (
             <div className="toolbar">
                 <div className="toolbar__tabs">
-                    <Tabs defaultActiveKey="structure">
+                    <Tabs defaultActiveKey="structure" id="toolbar__tabs-wrapper">
                         <Tab eventKey="structure" title="Структура">
-                            <Draggable
-                                index={1}
-                                listId={this.props.id}
-                                element={{id: shortid.generate(), text: 'Sample Text', type: 'Card'}}
-                                updateId={this.updateId}
-                            />
+                            <Container
+                                groupName="1"
+                                behaviour="copy"
+                                getChildPayload={i => this.state.items[i]}
+                                onDrop={e => this.setState({ items: applyDrag(this.state.items, e) })}
+                            >
+                                {
+                                    this.state.items.map((element,i) => {
+                                        const component = createComponent(element);
+                                        return (
+                                            <Draggable key={i}>
+                                                {component}
+                                            </Draggable>
+                                        );
+                                    })
+                                }
+                            </Container>
                         </Tab>
                         <Tab eventKey="elements" title="Элементы">
                         </Tab>
