@@ -1,0 +1,20 @@
+.text-editor-root-wrapper {
+	box-shadow: 0 0 5px 0px rgba(0,0,0,0.1);
+	padding: 10px;
+
+	.text-editor-wrapper {
+		padding: 5px 5px 5px 10px;
+		border-radius: 2px;
+		border: 1px solid #F1F1F1;
+		background: white;
+		flex-wrap: wrap;
+	}
+
+	.rdw-embedded-modal {
+		height: auto;
+	}
+
+	.rdw-option-wrapper {
+		height: auto;
+	}
+}

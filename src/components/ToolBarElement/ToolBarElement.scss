@@ -1,0 +1,20 @@
+.toolbar-element {
+	padding: 30px;
+	background-color: #fff;
+	border-radius: 5px;
+	text-align: center;
+	box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.3);
+	color: rgb(103, 106, 108);
+	cursor: pointer;
+	transition: box-shadow 0.2s ease-in-out;
+
+	h3 {
+		font-weight: 600;
+		margin: 10px 0 0;
+		font-size: 16px;
+	}
+
+	&:hover {
+		box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.3);
+	}
+}

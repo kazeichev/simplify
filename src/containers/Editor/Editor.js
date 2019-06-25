@@ -5,16 +5,61 @@ import {Container, Draggable} from 'react-smooth-dnd';
 
 import './Editor.scss';
 import {applyDrag} from "../../utils/ApplyDrag";
+import update from "immutability-helper";
+
+import {TYPE_EDITOR} from "../../utils/constants";
 
 class Editor extends Component {
 
+    /**
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
-            items: this.props.items,
+            items: this.props.items
         };
+
+        this.changeOptions = this.changeOptions.bind(this);
+
     }
 
+    /**
+     * @param e
+     */
+    onDrop(e) {
+        this.setState({
+            items: applyDrag(this.state.items, e)
+        })
+    }
+
+    /**
+     * @param element
+     * @param itemToChange
+     */
+    changeOptions(element, itemToChange) {
+        let index = this.state.items.findIndex(x => x.id === element.id);
+        if (index === -1) index = 1;
+        const itemName = Object.keys(itemToChange)[0];
+        const itemData = itemToChange[itemName];
+
+        this.setState(update(this.state, {
+            items: {
+                [index]: {
+                   options: {
+                        $merge: {
+                            [itemName]: itemData
+                        }
+                    }
+                }
+            }
+        }));
+    }
+
+
+    /**
+     * @returns {*}
+     */
     render() {
         return (
             <div className="editor">
@@ -22,11 +67,18 @@ class Editor extends Component {
                     <Container
                         groupName="1"
                         getChildPayload={i => this.state.items[i]}
-                        onDrop={e => this.setState({items: applyDrag(this.state.items, e)})}
+                        onDrop={e => this.onDrop(e)}
+                        lockAxis="y"
+                        dragHandleSelector=".element-drag-handler"
                     >
                         {
                             this.state.items.map((element, i) => {
-                                const component = createComponent(element);
+                                const component = createComponent(
+                                    element,
+                                    TYPE_EDITOR,
+                                    {changeOptions: this.changeOptions}
+                                );
+
                                 return (
                                     <Draggable key={i}>
                                         {component}

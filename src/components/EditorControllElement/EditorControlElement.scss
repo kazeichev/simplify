@@ -1,0 +1,27 @@
+.editor-control-element_wrapper {
+	padding: 1px;
+	position: relative;
+	color: rgb(103, 106, 108);
+
+	.editor-control-element_tooltips {
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+
+		span {
+			margin: 5px;
+			cursor: pointer;
+		}
+	}
+
+	&:hover {
+		padding: 0;
+		border: 1px dashed rgb(103, 106, 108);
+		border-radius: 5px;
+
+		.editor-control-element_tooltips {
+			display: block;
+		}
+	}
+}
