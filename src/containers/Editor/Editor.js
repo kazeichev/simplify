@@ -21,7 +21,6 @@ class Editor extends Component {
         };
 
         this.changeOptions = this.changeOptions.bind(this);
-
     }
 
     /**
@@ -42,18 +41,35 @@ class Editor extends Component {
         if (index === -1) index = 1;
         const itemName = Object.keys(itemToChange)[0];
         const itemData = itemToChange[itemName];
+        const itemType = itemToChange.option;
 
-        this.setState(update(this.state, {
-            items: {
-                [index]: {
-                   options: {
-                        $merge: {
-                            [itemName]: itemData
+        if (itemType && itemType === 'style') {
+            this.setState(update(this.state, {
+                items: {
+                    [index]: {
+                        options: {
+                            style: {
+                                $merge: {
+                                    [itemName]: itemData
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }));
+            }));
+        } else {
+            this.setState(update(this.state, {
+                items: {
+                    [index]: {
+                        options: {
+                            $merge: {
+                                [itemName]: itemData
+                            }
+                        }
+                    }
+                }
+            }));
+        }
     }
 
 

@@ -1,5 +1,5 @@
 .text-editor-root-wrapper {
-	box-shadow: 0 0 5px 0px rgba(0,0,0,0.1);
+	box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
 	padding: 10px;
 
 	.text-editor-wrapper {
@@ -8,13 +8,15 @@
 		border: 1px solid #F1F1F1;
 		background: white;
 		flex-wrap: wrap;
+		max-height: 200px;
 	}
 
-	.rdw-embedded-modal {
+	.rdw-embedded-modal,
+	.rdw-link-modal {
 		height: auto;
 	}
 
 	.rdw-option-wrapper {
-		height: auto;
+		height: 28px;
 	}
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import TextEditor from '../containers/TextEditor/TextEditor';
+import TextElementEditor from '../containers/TextElementEditor/TextElementEditor';
 
 export default (element) => {
     let component = null;
     switch (element.type) {
         case 'TextElement':
-            component = <TextEditor element={element} />;
+            component = <TextElementEditor element={element} />;
             break;
         default:
             component = null;

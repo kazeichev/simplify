@@ -1,26 +1,11 @@
 import React, { Component } from 'react';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import {EditorState, ContentState, convertToRaw} from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import './TextEditor.scss';
-
-const editorToolbar = {
-    options: [
-        'inline',
-        'blockType',
-        'fontSize',
-        'fontFamily',
-        'list',
-        'textAlign',
-        'colorPicker',
-        'link',
-        'embedded',
-        'history'
-    ],
-};
+import draftToHtml from "draftjs-to-html";
 
 export default class TextEditor extends Component {
 
@@ -46,13 +31,14 @@ export default class TextEditor extends Component {
             editorState: editorState
         };
 
-        this.onEditorStateChange = this.onEditorStateChange.bind(this)
+        this.onTextEditorStateChange = this.onTextEditorStateChange.bind(this);
+
     }
 
     /**
      * @param editorState
      */
-    onEditorStateChange(editorState) {
+    onTextEditorStateChange(editorState) {
         this.props.element.callback(
             this.props.element,
             {
@@ -66,17 +52,16 @@ export default class TextEditor extends Component {
     };
 
     render() {
+        console.log(this.props);
         const { editorState } = this.state;
         return (
-            <div>
-                <Editor
-                    editorState={editorState}
-                    wrapperClassName="text-editor-root-wrapper"
-                    editorClassName="text-editor-wrapper"
-                    onEditorStateChange={this.onEditorStateChange}
-                    toolbar={editorToolbar}
-                />
-            </div>
+            <Editor
+                editorState={editorState}
+                wrapperClassName="text-editor-root-wrapper"
+                editorClassName="text-editor-wrapper"
+                onEditorStateChange={this.onTextEditorStateChange}
+                toolbar={this.props.toolbarOptions}
+            />
         );
     }
 }

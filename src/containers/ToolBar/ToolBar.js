@@ -11,6 +11,9 @@ import {Container, Draggable} from 'react-smooth-dnd';
 import {TYPE_TOOLBAR} from "../../utils/constants";
 import update from "immutability-helper";
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLongArrowAltRight} from "@fortawesome/free-solid-svg-icons";
+
 class ToolBar extends Component {
 
     /**
@@ -29,7 +32,12 @@ class ToolBar extends Component {
                     options: {
                         text: 'Новый текст',
                         style: {
-                            padding: '10px 0 10px 15px'
+                            paddingLeft: '15px',
+                            paddingRight: '15px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            margin: '0px',
+                            lineHeight: '1.5em'
                         },
                         edit: this.edit
                     }
@@ -75,7 +83,7 @@ class ToolBar extends Component {
         this.setState(
             {
                 editor: {
-                    enabled: !this.state.editor.enabled ,
+                    enabled: !this.state.editor.enabled,
                     element: element
                 }
             })
@@ -90,36 +98,43 @@ class ToolBar extends Component {
                 <div className="toolbar__tabs">
                     {
                         !this.state.editor.enabled
-                            ?   <Tabs defaultActiveKey="structure" id="toolbar__tabs-wrapper">
-                                    <Tab eventKey="structure" title="Структура">
-                                        <Container
-                                            groupName="1"
-                                            behaviour="copy"
-                                            getChildPayload={i => this.state.items[i]}
-                                            onDragStart={e => this.onDragStart(e)}
-                                        >
-                                            {
-                                                this.state.items.map((element, i) => {
-                                                    const component = createComponent(element, TYPE_TOOLBAR);
-                                                    return (
-                                                        <Draggable
-                                                            key={i}
-                                                            style={{display: 'inline-block', padding: '10px'}}
-                                                            className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-                                                        >
-                                                            {component}
-                                                        </Draggable>
-                                                    );
-                                                })
-                                            }
-                                        </Container>
-                                    </Tab>
-                                    <Tab eventKey="elements" title="Элементы">
-                                    </Tab>
-                                    <Tab eventKey="settings" title="Настройки">
-                                    </Tab>
-                                </Tabs>
-                            : createEditor(this.state.editor.element)
+                            ? <Tabs defaultActiveKey="structure" id="toolbar__tabs-wrapper">
+                                <Tab eventKey="structure" title="Структура">
+                                    <Container
+                                        groupName="1"
+                                        behaviour="copy"
+                                        getChildPayload={i => this.state.items[i]}
+                                        onDragStart={e => this.onDragStart(e)}
+                                    >
+                                        {
+                                            this.state.items.map((element, i) => {
+                                                const component = createComponent(element, TYPE_TOOLBAR);
+                                                return (
+                                                    <Draggable
+                                                        key={i}
+                                                        style={{display: 'inline-block', padding: '10px'}}
+                                                        className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+                                                    >
+                                                        {component}
+                                                    </Draggable>
+                                                );
+                                            })
+                                        }
+                                    </Container>
+                                </Tab>
+                                <Tab eventKey="elements" title="Элементы">
+                                </Tab>
+                                <Tab eventKey="settings" title="Настройки">
+                                </Tab>
+                            </Tabs>
+                            : <div className="toolbar_editor-wrapper">
+                                <div className="toolbar_editor-icon-back" title="Закрыть" onClick={
+                                    () => this.setState({editor: {enabled: !this.state.editor.enabled}})
+                                }>
+                                    <FontAwesomeIcon icon={faLongArrowAltRight} size="2x"/>
+                                </div>
+                                {createEditor(this.state.editor.element)}
+                            </div>
                     }
                 </div>
             </div>

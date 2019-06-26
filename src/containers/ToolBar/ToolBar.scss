@@ -3,6 +3,7 @@
 	height: 100%;
 	padding: 10px;
 	background-color: #fff;
+	//overflow-y: auto;
 
 	.toolbar__tabs {
 		height: 100%;
@@ -17,6 +18,25 @@
 
 			.draggable-element {
 				margin: 10px;
+			}
+		}
+	}
+
+	.toolbar_editor-wrapper {
+
+		.toolbar_editor-icon-back {
+			text-align: right;
+
+			svg {
+				color: rgba(103, 106, 108, 0.4);
+				cursor: pointer;
+				margin-bottom: 10px;
+				padding-right: 5px;
+				transition: color 0.3s;
+
+				&:hover {
+					color: #676a6c;
+				}
 			}
 		}
 	}
