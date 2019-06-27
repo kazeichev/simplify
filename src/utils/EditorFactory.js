@@ -1,12 +1,16 @@
 import React from 'react';
 
 import TextElementEditor from '../containers/TextElementEditor/TextElementEditor';
+import ButtonElementEditor from '../containers/ButtonElementEditor/ButtonElementEditor';
 
 export default (element) => {
     let component = null;
     switch (element.type) {
         case 'TextElement':
             component = <TextElementEditor element={element} />;
+            break;
+        case 'ButtonElement':
+            component = <ButtonElementEditor element={element} />;
             break;
         default:
             component = null;

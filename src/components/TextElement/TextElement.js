@@ -21,5 +21,8 @@ export default (props) => {
             element={props.element}
             edit={props.element.options.edit}
             changeOptions={props.changeOptions}
+            copy={props.copy}
+            remove={props.remove}
+            closeEditor={props.element.options.closeEditor}
         />;
 }

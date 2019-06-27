@@ -24,6 +24,9 @@ export default (element, containerType, functions) => {
                     key={element.id}
                     containerType={containerType}
                     element={element}
+                    changeOptions={containerType === TYPE_EDITOR ? functions.changeOptions : null}
+                    copy={containerType === TYPE_EDITOR ? functions.copy : null}
+                    remove={containerType === TYPE_EDITOR ? functions.remove : null}
                 />;
                 break;
             case 'TextElement':
@@ -32,6 +35,8 @@ export default (element, containerType, functions) => {
                     containerType={containerType}
                     element={element}
                     changeOptions={containerType === TYPE_EDITOR ? functions.changeOptions : null}
+                    copy={containerType === TYPE_EDITOR ? functions.copy : null}
+                    remove={containerType === TYPE_EDITOR ? functions.remove : null}
                 />;
                 break;
             default:

@@ -5,7 +5,10 @@ export default (props) => {
 
     const names = {
         lineHeight: 'Высота строки',
-        indent: 'Отступы'
+        indent: 'Отступы',
+        alignment: 'Выравнивание',
+        border: 'Граница',
+        background: 'Фон'
     };
 
     return (

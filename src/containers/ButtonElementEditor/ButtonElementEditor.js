@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import TextEditor from '../TextEditor/TextEditor';
 import ElementEditor from '../ElementEditor/ElementEditor';
@@ -6,22 +6,24 @@ import ElementEditor from '../ElementEditor/ElementEditor';
 const editorToolbar = {
     options: [
         'inline',
-        'blockType',
         'fontSize',
         'fontFamily',
-        'list',
         'textAlign',
         'colorPicker',
-        'link',
         'history'
     ],
 };
 
 const elementEditorOptions = {
-    options: ['lineHeight', 'indent']
+    options: [
+        'indent',
+        'alignment',
+        'border',
+        'background'
+    ]
 };
 
-export default class TextElementEditor extends Component {
+export default class ButtonElementEditor extends Component {
 
     /**
      * @param props
@@ -29,13 +31,13 @@ export default class TextElementEditor extends Component {
     constructor(props) {
         super(props);
 
-        this.onElementEditorStateChange = this.onElementEditorStateChange.bind(this);
+        this.onStateChange = this.onStateChange.bind(this);
     }
 
     /**
      * @param state
      */
-    onElementEditorStateChange(state) {
+    onStateChange(state) {
         this.props.element.callback(
             this.props.element,
             {
@@ -53,7 +55,7 @@ export default class TextElementEditor extends Component {
                     toolbarOptions={editorToolbar}
                 />
                 <ElementEditor
-                    onElementEditorStateChange={this.onElementEditorStateChange}
+                    onElementEditorStateChange={this.onStateChange}
                     options={elementEditorOptions}
                     currentStyles={this.props.element.options.style}
                 />

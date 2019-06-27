@@ -9,11 +9,18 @@ export default (props) => {
         <div className="editor-control-element_wrapper">
             {props.data}
             <div className="editor-control-element_tooltips">
-                <span><FontAwesomeIcon icon={faCopy}/></span>
+                <span onClick={() => props.copy(props.element)}>
+                    <FontAwesomeIcon icon={faCopy}/>
+                </span>
                 <span onClick={() => props.edit(props.element, props.changeOptions)}>
                     <FontAwesomeIcon icon={faEdit}/>
                 </span>
-                <span><FontAwesomeIcon icon={faTrashAlt}/></span>
+                <span onClick={() => {
+                    props.closeEditor();
+                    props.remove(props.element);
+                }}>
+                    <FontAwesomeIcon icon={faTrashAlt}/>
+                </span>
                 <span className="element-drag-handler">
                     <FontAwesomeIcon icon={faExpandArrowsAlt}/>
                 </span>

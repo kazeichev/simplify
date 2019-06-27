@@ -6,7 +6,7 @@ import ToolBar from './ToolBar/ToolBar';
 import {Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
 

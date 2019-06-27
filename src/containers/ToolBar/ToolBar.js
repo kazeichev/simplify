@@ -23,6 +23,7 @@ class ToolBar extends Component {
         super(props);
 
         this.edit = this.edit.bind(this);
+        this.closeEditor = this.closeEditor.bind(this);
 
         this.state = {
             items: [
@@ -36,16 +37,44 @@ class ToolBar extends Component {
                             paddingRight: '15px',
                             paddingTop: '10px',
                             paddingBottom: '10px',
-                            margin: '0px',
+                            marginLeft: '0px',
+                            marginRight: '0px',
+                            marginTop: '0px',
+                            marginBottom: '0px',
                             lineHeight: '1.5em'
                         },
-                        edit: this.edit
+                        edit: this.edit,
+                        closeEditor: this.closeEditor
                     }
                 },
                 {
                     id: shortid.generate(),
                     type: 'ButtonElement',
-                    options: {}
+                    options: {
+                        text: 'Новая кнопка',
+                        style: {
+                            color: '#fff',
+                            backgroundColor: '#1ab394',
+                            borderLeft: '0px solid',
+                            borderRight: '0px solid',
+                            borderTop: '0px solid',
+                            borderBottom: '0px solid',
+                            borderColor: '#1ab39',
+                            borderRadius: '5px',
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '5px',
+                            paddingBottom: '5px',
+                            marginLeft: '0px',
+                            marginRight: '0px',
+                            marginTop: '0px',
+                            marginBottom: '0px',
+                            textAlign: 'center',
+                            outline: 'none'
+                        },
+                        edit: this.edit,
+                        closeEditor: this.closeEditor
+                    }
                 },
                 // {
                 //     id: shortid.generate(),
@@ -60,6 +89,9 @@ class ToolBar extends Component {
         };
     }
 
+    /**
+     * @param element
+     */
     updateId(element) {
         let index = this.state.items.findIndex(x => x.id === element.id);
         if (index === -1) index = 1;
@@ -74,10 +106,17 @@ class ToolBar extends Component {
         }));
     }
 
+    /**
+     * @param payload
+     */
     onDragStart({payload}) {
         this.updateId(payload);
     }
 
+    /**
+     * @param element
+     * @param callback
+     */
     edit(element, callback) {
         element.callback = callback;
         this.setState(
@@ -87,6 +126,16 @@ class ToolBar extends Component {
                     element: element
                 }
             })
+    }
+
+
+    closeEditor() {
+        this.setState({
+            editor: {
+                enabled: false,
+                element: null
+            }
+        })
     }
 
     /**

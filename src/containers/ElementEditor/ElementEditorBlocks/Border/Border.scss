@@ -1,0 +1,19 @@
+.border-block {
+	.row {
+		margin: 10px 0;
+
+		.indent-col {
+			display:flex;
+			align-items: center;
+			justify-content: center;
+
+			h5 {
+				margin: 0;
+				padding: 0;
+				font-size: 14px;
+				color: #676a6c;
+				font-weight: 400;
+			}
+		}
+	}
+}

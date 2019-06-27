@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import createComponent from '../../utils/ComponentFactory';
 import {Container, Draggable} from 'react-smooth-dnd';
+import shortid from 'shortid';
 
 import './Editor.scss';
 import {applyDrag} from "../../utils/ApplyDrag";
@@ -21,6 +22,8 @@ class Editor extends Component {
         };
 
         this.changeOptions = this.changeOptions.bind(this);
+        this.copy = this.copy.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     /**
@@ -72,6 +75,43 @@ class Editor extends Component {
         }
     }
 
+    /**
+     * @param element
+     */
+    copy(element) {
+        let {items} = this.state;
+        let index = this.state.items.findIndex(x => x.id === element.id);
+        if (index === -1) index = 1;
+
+        element = update(element, {
+           $merge: {
+               id: shortid.generate()
+           }
+        });
+
+        items.splice(index, 0, element);
+
+        this.setState(update(this.state, {
+            items: {
+                $set: items
+            }
+        }))
+    }
+
+    /**
+     * @param element
+     */
+    remove(element) {
+        let index = this.state.items.findIndex(x => x.id === element.id);
+        if (index === -1) index = 1;
+
+        this.setState(update(this.state, {
+            items: {
+                $splice: [[index, 1]]
+            }
+        }))
+    }
+
 
     /**
      * @returns {*}
@@ -92,7 +132,11 @@ class Editor extends Component {
                                 const component = createComponent(
                                     element,
                                     TYPE_EDITOR,
-                                    {changeOptions: this.changeOptions}
+                                    {
+                                        changeOptions: this.changeOptions,
+                                        copy: this.copy,
+                                        remove: this.remove
+                                    }
                                 );
 
                                 return (

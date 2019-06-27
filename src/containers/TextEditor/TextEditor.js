@@ -52,7 +52,6 @@ export default class TextEditor extends Component {
     };
 
     render() {
-        console.log(this.props);
         const { editorState } = this.state;
         return (
             <Editor
@@ -61,6 +60,9 @@ export default class TextEditor extends Component {
                 editorClassName="text-editor-wrapper"
                 onEditorStateChange={this.onTextEditorStateChange}
                 toolbar={this.props.toolbarOptions}
+                localization={{
+                    locale: 'ru',
+                }}
             />
         );
     }
