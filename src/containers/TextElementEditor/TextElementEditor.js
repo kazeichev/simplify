@@ -6,19 +6,16 @@ import ElementEditor from '../ElementEditor/ElementEditor';
 const editorToolbar = {
     options: [
         'inline',
-        'blockType',
         'fontSize',
         'fontFamily',
         'list',
         'textAlign',
-        'colorPicker',
-        'link',
         'history'
     ],
 };
 
 const elementEditorOptions = {
-    options: ['lineHeight', 'indent']
+    options: ['color', 'lineHeight', 'indent']
 };
 
 export default class TextElementEditor extends Component {

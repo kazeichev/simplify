@@ -6,6 +6,7 @@ import Border from "./ElementEditorBlocks/Border/Border";
 import Background from "./ElementEditorBlocks/Background/Background";
 import AddClass from "./ElementEditorBlocks/AddClass/AddClass";
 import Link from "./ElementEditorBlocks/Link/Link";
+import Color from "./ElementEditorBlocks/Color/Color";
 
 
 export default (props) => {
@@ -52,6 +53,12 @@ export default (props) => {
             component = <Link
                 callback={props.callback}
                 options={props.elementOptions}
+            />;
+            break;
+        case 'color':
+            component = <Color
+                callback={props.callback}
+                styles={props.styles}
             />;
             break;
         default:

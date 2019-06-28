@@ -9,18 +9,17 @@ const editorToolbar = {
         'fontSize',
         'fontFamily',
         'textAlign',
-        'colorPicker',
         'history'
     ],
 };
 
 const elementEditorOptions = {
     options: [
+        'color',
         'link',
         'indent',
         'alignment',
         'border',
-        'background',
         'addClass'
     ]
 };

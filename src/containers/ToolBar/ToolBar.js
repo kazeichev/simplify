@@ -33,6 +33,8 @@ class ToolBar extends Component {
                     options: {
                         text: 'Новый текст',
                         style: {
+                            color: '#676a6c',
+                            backgroundColor: 'transparent',
                             paddingLeft: '15px',
                             paddingRight: '15px',
                             paddingTop: '10px',

@@ -10,7 +10,8 @@ export default (props) => {
         border: 'Граница',
         background: 'Фон',
         addClass: 'Дополнительный CSS класс',
-        link: 'Ссылка'
+        link: 'Ссылка',
+        color: 'Цвет'
     };
 
     return (
