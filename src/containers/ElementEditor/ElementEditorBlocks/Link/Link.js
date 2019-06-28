@@ -26,7 +26,7 @@ export default class Link extends React.Component {
     change(e) {
         const value = e.target.value,
               expression =
-                /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+                /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi,
               regex = new RegExp(expression);
 
         if (value.match(regex)) {

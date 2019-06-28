@@ -55,7 +55,7 @@ export default class TextElementEditor extends Component {
                 <ElementEditor
                     onElementEditorStateChange={this.onElementEditorStateChange}
                     options={elementEditorOptions}
-                    currentStyles={this.props.element.options.style}
+                    elementOptions={this.props.element.options}
                 />
             </div>
         );
