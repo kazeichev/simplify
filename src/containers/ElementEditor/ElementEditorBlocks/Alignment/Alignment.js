@@ -27,7 +27,7 @@ export default class Alignment extends React.Component {
         this.props.callback({
             prop: 'textAlign',
             value: value
-        });
+        }, 'style');
     }
 
     /**

@@ -39,7 +39,7 @@ export default class Background extends React.Component {
         this.props.callback({
             prop: 'backgroundColor',
             value: color.hex
-        });
+        }, 'style');
     };
 
     /**

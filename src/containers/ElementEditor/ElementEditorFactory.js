@@ -4,6 +4,8 @@ import Indent from './ElementEditorBlocks/Indent/Indent';
 import Alignment from './ElementEditorBlocks/Alignment/Alignment';
 import Border from "./ElementEditorBlocks/Border/Border";
 import Background from "./ElementEditorBlocks/Background/Background";
+import AddClass from "./ElementEditorBlocks/AddClass/AddClass";
+import Link from "./ElementEditorBlocks/Link/Link";
 
 
 export default (props) => {
@@ -38,6 +40,18 @@ export default (props) => {
             component = <Background
                 callback={props.callback}
                 styles={props.styles}
+            />;
+            break;
+        case 'addClass':
+            component = <AddClass
+                callback={props.callback}
+                options={props.elementOptions}
+            />;
+            break;
+        case 'link':
+            component = <Link
+                callback={props.callback}
+                options={props.elementOptions}
             />;
             break;
         default:

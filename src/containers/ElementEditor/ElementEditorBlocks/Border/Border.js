@@ -35,7 +35,7 @@ export default class Border extends React.Component {
         this.props.callback({
             prop: [borderType],
             value: value + (borderType === 'borderRadius' ? 'px' : 'px solid')
-        });
+        }, 'style');
     }
 
     handleClick = () => {
@@ -61,7 +61,7 @@ export default class Border extends React.Component {
         this.props.callback({
             prop: 'borderColor',
             value: color.hex
-        });
+        }, 'style');
     };
 
     /**

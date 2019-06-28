@@ -26,7 +26,7 @@ export default class Indent extends React.Component {
         this.props.callback({
             prop: indent,
             value: value + 'px'
-        })
+        }, 'style')
     }
 
     render() {

@@ -39,13 +39,13 @@ export default class LineHeight extends React.Component {
                     }
 
                     this.setState({lineHeight: number + 'em'});
-                    this.props.callback(createValue(number));
+                    this.props.callback(createValue(number), 'style');
                 }}>-</button>
                 <span>{this.state.lineHeight}</span>
                 <button onClick={() => {
                     number++;
                     this.setState({lineHeight: number + 'em'});
-                    this.props.callback(createValue(number));
+                    this.props.callback(createValue(number), 'style');
                 }}>+</button>
             </div>
         );

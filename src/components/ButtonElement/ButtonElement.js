@@ -6,11 +6,23 @@ import {TYPE_TOOLBAR} from "../../utils/constants";
 import EditorControllElement from "../EditorControllElement/EditorControlElement";
 import Interweave from 'interweave';
 
+const onClick = (url) => {
+    window.open(url, '_blank');
+};
+
 export default (props) => {
     const icon = <FontAwesomeIcon icon={faSquare} size="2x" />;
     const data =
         <div style={{textAlign: props.element.options.style.textAlign}}>
-            <button style={props.element.options.style}>
+            <button
+                style={props.element.options.style}
+                className={props.element.options.className}
+                onClick={() => {
+                    if (props.element.options.link) {
+                        onClick(props.element.options.link)
+                    }
+                }}
+            >
                 <Interweave content={props.element.options.text} />
             </button>
         </div>;

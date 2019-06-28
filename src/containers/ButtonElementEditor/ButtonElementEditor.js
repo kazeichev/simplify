@@ -16,10 +16,12 @@ const editorToolbar = {
 
 const elementEditorOptions = {
     options: [
+        'link',
         'indent',
         'alignment',
         'border',
-        'background'
+        'background',
+        'addClass'
     ]
 };
 
@@ -36,13 +38,14 @@ export default class ButtonElementEditor extends Component {
 
     /**
      * @param state
+     * @param option
      */
-    onStateChange(state) {
+    onStateChange(state, option) {
         this.props.element.callback(
             this.props.element,
             {
                 [state.prop]: state.value,
-                option: 'style'
+                option: option
             }
         )
     }
@@ -57,7 +60,7 @@ export default class ButtonElementEditor extends Component {
                 <ElementEditor
                     onElementEditorStateChange={this.onStateChange}
                     options={elementEditorOptions}
-                    currentStyles={this.props.element.options.style}
+                    elementOptions={this.props.element.options}
                 />
             </div>
         );

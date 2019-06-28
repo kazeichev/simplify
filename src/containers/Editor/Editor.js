@@ -84,9 +84,9 @@ class Editor extends Component {
         if (index === -1) index = 1;
 
         element = update(element, {
-           $merge: {
-               id: shortid.generate()
-           }
+            $merge: {
+                id: shortid.generate()
+            }
         });
 
         items.splice(index, 0, element);

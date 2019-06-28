@@ -43,6 +43,7 @@ class ToolBar extends Component {
                             marginBottom: '0px',
                             lineHeight: '1.5em'
                         },
+                        className: '',
                         edit: this.edit,
                         closeEditor: this.closeEditor
                     }
@@ -72,6 +73,8 @@ class ToolBar extends Component {
                             textAlign: 'center',
                             outline: 'none'
                         },
+                        className: '',
+                        link: '',
                         edit: this.edit,
                         closeEditor: this.closeEditor
                     }

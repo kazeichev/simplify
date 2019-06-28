@@ -8,7 +8,9 @@ export default (props) => {
         indent: 'Отступы',
         alignment: 'Выравнивание',
         border: 'Граница',
-        background: 'Фон'
+        background: 'Фон',
+        addClass: 'Дополнительный CSS класс',
+        link: 'Ссылка'
     };
 
     return (
@@ -21,6 +23,7 @@ export default (props) => {
                     type={props.option}
                     callback={props.callback}
                     styles={props.styles}
+                    elementOptions={props.elementOptions}
                 />
             </div>
         </div>
