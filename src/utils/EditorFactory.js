@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TextElementEditor from '../containers/TextElementEditor/TextElementEditor';
-import ButtonElementEditor from '../containers/ButtonElementEditor/ButtonElementEditor';
+import TextElementEditor from '../containers/ElementEditor/ElementEditors/TextElementEditor/TextElementEditor';
+import ButtonElementEditor from '../containers/ElementEditor/ElementEditors/ButtonElementEditor/ButtonElementEditor';
 
 export default (element) => {
     let component = null;

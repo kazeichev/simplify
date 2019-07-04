@@ -12,8 +12,7 @@ export default (props) => {
                         option={option}
                         key={i}
                         callback={props.onElementEditorStateChange}
-                        styles={props.elementOptions.style}
-                        elementOptions={props.elementOptions}
+                        element={props.element}
                     />
                 }) : null
             }

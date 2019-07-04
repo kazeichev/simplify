@@ -39,10 +39,11 @@ export default class TextEditor extends Component {
      * @param editorState
      */
     onTextEditorStateChange(editorState) {
-        this.props.element.callback(
+        this.props.onEditorStateChange(
             this.props.element,
             {
-                text: draftToHtml(convertToRaw(editorState.getCurrentContent()))
+                path: 'options.text',
+                value: draftToHtml(convertToRaw(editorState.getCurrentContent()))
             }
         );
 

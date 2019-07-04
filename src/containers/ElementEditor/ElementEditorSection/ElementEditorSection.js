@@ -23,8 +23,7 @@ export default (props) => {
                 <CreateEditorBlock
                     type={props.option}
                     callback={props.callback}
-                    styles={props.styles}
-                    elementOptions={props.elementOptions}
+                    element={props.element}
                 />
             </div>
         </div>

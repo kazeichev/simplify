@@ -14,6 +14,11 @@ import update from "immutability-helper";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLongArrowAltRight} from "@fortawesome/free-solid-svg-icons";
 
+import Models from '../../Models';
+import {connect} from "react-redux";
+import {closeEditableElement} from "../../actions/toolbarActions";
+import {bindActionCreators} from "redux";
+
 class ToolBar extends Component {
 
     /**
@@ -22,82 +27,20 @@ class ToolBar extends Component {
     constructor(props) {
         super(props);
 
-        this.edit = this.edit.bind(this);
-        this.closeEditor = this.closeEditor.bind(this);
+        let items = Models.map((model) => {
+            return model.getDefaultParameters()
+        });
 
         this.state = {
-            items: [
-                {
-                    id: shortid.generate(),
-                    type: 'TextElement',
-                    options: {
-                        text: 'Новый текст',
-                        style: {
-                            color: '#676a6c',
-                            backgroundColor: 'transparent',
-                            paddingLeft: '15px',
-                            paddingRight: '15px',
-                            paddingTop: '10px',
-                            paddingBottom: '10px',
-                            marginLeft: '0px',
-                            marginRight: '0px',
-                            marginTop: '0px',
-                            marginBottom: '0px',
-                            lineHeight: '1.5em'
-                        },
-                        className: '',
-                        edit: this.edit,
-                        closeEditor: this.closeEditor
-                    }
-                },
-                {
-                    id: shortid.generate(),
-                    type: 'ButtonElement',
-                    options: {
-                        text: 'Новая кнопка',
-                        style: {
-                            color: '#fff',
-                            backgroundColor: '#1ab394',
-                            borderLeft: '0px solid',
-                            borderRight: '0px solid',
-                            borderTop: '0px solid',
-                            borderBottom: '0px solid',
-                            borderColor: '#1ab39',
-                            borderRadius: '5px',
-                            paddingLeft: '10px',
-                            paddingRight: '10px',
-                            paddingTop: '5px',
-                            paddingBottom: '5px',
-                            marginLeft: '0px',
-                            marginRight: '0px',
-                            marginTop: '0px',
-                            marginBottom: '0px',
-                            textAlign: 'center',
-                            outline: 'none'
-                        },
-                        className: '',
-                        link: '',
-                        edit: this.edit,
-                        closeEditor: this.closeEditor
-                    }
-                },
-                // {
-                //     id: shortid.generate(),
-                //     type: 'RowElement',
-                //     options: {}
-                // }
-            ],
-            editor: {
-                enabled: false,
-                type: null
-            }
+            items: items
         };
     }
 
     /**
-     * @param element
+     * @param e
      */
-    updateId(element) {
+    updateId(e) {
+        const element = e.payload;
         let index = this.state.items.findIndex(x => x.id === element.id);
         if (index === -1) index = 1;
         this.setState(update(this.state, {
@@ -112,38 +55,6 @@ class ToolBar extends Component {
     }
 
     /**
-     * @param payload
-     */
-    onDragStart({payload}) {
-        this.updateId(payload);
-    }
-
-    /**
-     * @param element
-     * @param callback
-     */
-    edit(element, callback) {
-        element.callback = callback;
-        this.setState(
-            {
-                editor: {
-                    enabled: !this.state.editor.enabled,
-                    element: element
-                }
-            })
-    }
-
-
-    closeEditor() {
-        this.setState({
-            editor: {
-                enabled: false,
-                element: null
-            }
-        })
-    }
-
-    /**
      * @returns {*}
      */
     render() {
@@ -151,43 +62,72 @@ class ToolBar extends Component {
             <div className="toolbar">
                 <div className="toolbar__tabs">
                     {
-                        !this.state.editor.enabled
+                        !this.props.editableElement
                             ? <Tabs defaultActiveKey="structure" id="toolbar__tabs-wrapper">
                                 <Tab eventKey="structure" title="Структура">
                                     <Container
                                         groupName="1"
                                         behaviour="copy"
                                         getChildPayload={i => this.state.items[i]}
-                                        onDragStart={e => this.onDragStart(e)}
+                                        onDragStart={e => this.updateId(e)}
                                     >
                                         {
                                             this.state.items.map((element, i) => {
-                                                const component = createComponent(element, TYPE_TOOLBAR);
-                                                return (
-                                                    <Draggable
-                                                        key={i}
-                                                        style={{display: 'inline-block', padding: '10px'}}
-                                                        className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-                                                    >
-                                                        {component}
-                                                    </Draggable>
-                                                );
+                                                const tabRow = ['RowElement'];
+                                                if (tabRow.includes(element.type)) {
+                                                    return (
+                                                        <Draggable
+                                                            key={i}
+                                                            style={{display: 'inline-block', padding: '10px'}}
+                                                            className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                                                        >
+                                                            {createComponent(element, TYPE_TOOLBAR)}
+                                                        </Draggable>
+                                                    );
+                                                } else {
+                                                    return null;
+                                                }
                                             })
                                         }
                                     </Container>
                                 </Tab>
                                 <Tab eventKey="elements" title="Элементы">
+                                    <Container
+                                        groupName="1"
+                                        behaviour="copy"
+                                        getChildPayload={i => this.state.items[i]}
+                                        onDragStart={e => this.updateId(e)}
+                                    >
+                                        {
+                                            this.state.items.map((element, i) => {
+                                                const elementsRow = ['TextElement', 'ButtonElement'];
+                                                if (elementsRow.includes(element.type)) {
+                                                    return (
+                                                        <Draggable
+                                                            key={i}
+                                                            style={{display: 'inline-block', padding: '10px'}}
+                                                            className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+                                                        >
+                                                            {createComponent(element, TYPE_TOOLBAR)}
+                                                        </Draggable>
+                                                    );
+                                                } else {
+                                                    return null;
+                                                }
+                                            })
+                                        }
+                                    </Container>
                                 </Tab>
                                 <Tab eventKey="settings" title="Настройки">
                                 </Tab>
                             </Tabs>
                             : <div className="toolbar_editor-wrapper">
                                 <div className="toolbar_editor-icon-back" title="Закрыть" onClick={
-                                    () => this.setState({editor: {enabled: !this.state.editor.enabled}})
+                                    () => this.props.closeEditableElement()
                                 }>
                                     <FontAwesomeIcon icon={faLongArrowAltRight} size="2x"/>
                                 </div>
-                                {createEditor(this.state.editor.element)}
+                                {createEditor(this.props.editableElement)}
                             </div>
                     }
                 </div>
@@ -196,4 +136,24 @@ class ToolBar extends Component {
     }
 }
 
-export default ToolBar;
+/**
+ * @param state
+ * @returns {{editableElement: *}}
+ */
+const mapStateToProps = state => {
+    return {
+        editableElement: state.toolbarReducer.element
+    };
+};
+
+/**
+ * @param dispatch
+ * @returns {{closeEditableElement: (closeEditableElement|ActionCreator<any>|ActionCreatorsMapObject<any>)}}
+ */
+const mapActionsToProps = dispatch => {
+    return {
+        closeEditableElement: bindActionCreators(closeEditableElement, dispatch)
+    }
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(ToolBar);

@@ -16,49 +16,49 @@ export default (props) => {
         case 'lineHeight':
             component = <LineHeight
                 callback={props.callback}
-                styles={props.styles}
+                element={props.element}
             />;
             break;
         case 'indent':
             component = <Indent
                 callback={props.callback}
-                styles={props.styles}
+                element={props.element}
             />;
             break;
         case 'alignment':
             component = <Alignment
                 callback={props.callback}
-                styles={props.styles}
+                element={props.element}
             />;
             break;
         case 'border':
             component = <Border
                 callback={props.callback}
-                styles={props.styles}
+                element={props.element}
             />;
             break;
         case 'background':
             component = <Background
                 callback={props.callback}
-                styles={props.styles}
+                element={props.element}
             />;
             break;
         case 'addClass':
             component = <AddClass
                 callback={props.callback}
-                options={props.elementOptions}
+                element={props.element}
             />;
             break;
         case 'link':
             component = <Link
                 callback={props.callback}
-                options={props.elementOptions}
+                element={props.element}
             />;
             break;
         case 'color':
             component = <Color
                 callback={props.callback}
-                styles={props.styles}
+                element={props.element}
             />;
             break;
         default:

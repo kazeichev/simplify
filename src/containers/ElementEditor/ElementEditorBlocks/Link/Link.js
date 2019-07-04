@@ -1,5 +1,6 @@
 import React from 'react';
 import {Row, Col} from "react-bootstrap";
+import PropTypes from 'prop-types';
 
 import './Link.scss';
 
@@ -12,7 +13,7 @@ export default class Link extends React.Component {
         super(props);
 
         this.state = {
-            link: this.props.options.link,
+            link: this.props.element.options.link,
             isError: false,
             isSuccess: false
         };
@@ -35,10 +36,13 @@ export default class Link extends React.Component {
                 isSuccess: true,
                 isError: false
             }, () => {
-                this.props.callback({
-                    prop: 'link',
-                    value: value
-                }, 'options');
+                this.props.callback(
+                    this.props.element,
+                    {
+                        path: 'options.link',
+                        value: value
+                    }
+                );
 
                 setTimeout(() => {
                     this.setState({isSuccess: false})
@@ -82,3 +86,14 @@ export default class Link extends React.Component {
         );
     }
 }
+
+Link.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                link: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

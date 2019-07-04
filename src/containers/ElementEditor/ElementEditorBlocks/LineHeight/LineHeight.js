@@ -1,13 +1,14 @@
 import React from 'react';
 import './LineHeight.scss';
+import PropTypes from 'prop-types';
 
 /**
  * @param number
- * @returns {{prop: string, value: string}}
+ * @returns {{path: string, value: string}}
  */
 const createValue = (number) => {
     return {
-        prop: 'lineHeight',
+        path: 'options.styles.lineHeight',
         value: number + 'em'
     }
 };
@@ -21,9 +22,19 @@ export default class LineHeight extends React.Component {
         super(props);
 
         this.state = {
-            lineHeight: this.props.styles.lineHeight
+            lineHeight: this.props.element.options.styles.lineHeight
         }
     }
+
+    edit(value) {
+        this.setState({lineHeight: value + 'em'});
+
+        this.props.callback(
+            this.props.element,
+            createValue(value)
+        );
+    };
+
     render() {
         let number = Number.parseInt(this.state.lineHeight);
 
@@ -38,16 +49,23 @@ export default class LineHeight extends React.Component {
                         number--;
                     }
 
-                    this.setState({lineHeight: number + 'em'});
-                    this.props.callback(createValue(number), 'style');
+                    this.edit(number);
                 }}>-</button>
                 <span>{this.state.lineHeight}</span>
                 <button onClick={() => {
                     number++;
-                    this.setState({lineHeight: number + 'em'});
-                    this.props.callback(createValue(number), 'style');
+                    this.edit(number);
                 }}>+</button>
             </div>
         );
     }
 }
+
+LineHeight.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.object
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row} from "react-bootstrap";
 import {ChromePicker} from 'react-color'
+import PropTypes from "prop-types";
 
 export default class Color extends React.Component {
 
@@ -13,8 +14,8 @@ export default class Color extends React.Component {
         this.state = {
             isTextColorPicker: false,
             isBackgroundColorPicker: false,
-            backgroundColor: this.props.styles.backgroundColor,
-            color: this.props.styles.color,
+            backgroundColor: this.props.element.options.styles.backgroundColor,
+            color: this.props.element.options.styles.color,
 
         }
     }
@@ -46,10 +47,13 @@ export default class Color extends React.Component {
             color: color.hex
         });
 
-        this.props.callback({
-            prop: 'color',
-            value: color.hex
-        }, 'style');
+        this.props.callback(
+            this.props.element,
+            {
+                path: 'options.styles.color',
+                value: color.hex
+            }
+        );
     };
 
     /**
@@ -60,10 +64,13 @@ export default class Color extends React.Component {
             backgroundColor: color.hex
         });
 
-        this.props.callback({
-            prop: 'backgroundColor',
-            value: color.hex
-        }, 'style');
+        this.props.callback(
+            this.props.element,
+            {
+                path: 'options.styles.backgroundColor',
+                value: color.hex
+            }
+        );
     };
 
     /**
@@ -143,7 +150,7 @@ export default class Color extends React.Component {
                             this.state.isBackgroundColorPicker
                                 ? <div style={styles.popover}>
                                     <div style={styles.cover} onClick={this.handleClose}/>
-                                    <ChromePicker color={this.state.background} onChange={this.handleChangeBackgroundColor}/>
+                                    <ChromePicker color={this.state.backgroundColor} onChange={this.handleChangeBackgroundColor}/>
                                 </div>
                                 : null
                         }
@@ -153,3 +160,15 @@ export default class Color extends React.Component {
         );
     }
 }
+
+Color.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                color: PropTypes.string,
+                backgroundColor: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

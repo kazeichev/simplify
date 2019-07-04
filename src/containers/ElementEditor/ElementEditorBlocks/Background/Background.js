@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row} from "react-bootstrap";
 import {ChromePicker} from 'react-color'
+import PropTypes from 'prop-types';
 
 export default class Background extends React.Component {
 
@@ -12,7 +13,7 @@ export default class Background extends React.Component {
 
         this.state = {
             displayColorPicker: false,
-            backgroundColor: this.props.styles.backgroundColor
+            backgroundColor: this.props.element.options.styles.backgroundColor
         }
     }
 
@@ -36,10 +37,13 @@ export default class Background extends React.Component {
             backgroundColor: color.hex
         });
 
-        this.props.callback({
-            prop: 'backgroundColor',
-            value: color.hex
-        }, 'style');
+        this.props.callback(
+            this.props.element,
+            {
+                path: 'options.styles.backgroundColor',
+                value: color.hex
+            }
+        );
     };
 
     /**
@@ -103,3 +107,14 @@ export default class Background extends React.Component {
         );
     }
 }
+
+Background.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                backgroundColor: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

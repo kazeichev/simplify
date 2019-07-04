@@ -3,7 +3,7 @@ import ToolBarElement from '../ToolBarElement/ToolBarElement';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquare} from "@fortawesome/free-solid-svg-icons";
 import {TYPE_TOOLBAR} from "../../utils/constants";
-import EditorControllElement from "../EditorControllElement/EditorControlElement";
+import EditorControlElement from "../../containers/EditorControlElement/EditorControlElement";
 import Interweave from 'interweave';
 
 const onClick = (url) => {
@@ -13,9 +13,9 @@ const onClick = (url) => {
 export default (props) => {
     const icon = <FontAwesomeIcon icon={faSquare} size="2x" />;
     const data =
-        <div style={{textAlign: props.element.options.style.textAlign}}>
+        <div style={{textAlign: props.element.options.styles.textAlign}}>
             <button
-                style={props.element.options.style}
+                style={{...props.element.options.styles}}
                 className={props.element.options.className}
                 onClick={() => {
                     if (props.element.options.link) {
@@ -29,13 +29,8 @@ export default (props) => {
 
     return props.containerType === TYPE_TOOLBAR
         ? <ToolBarElement icon={icon} text="Кнопка" />
-        : <EditorControllElement
+        : <EditorControlElement
             data={data}
             element={props.element}
-            edit={props.element.options.edit}
-            changeOptions={props.changeOptions}
-            copy={props.copy}
-            remove={props.remove}
-            closeEditor={props.element.options.closeEditor}
         />;
 }

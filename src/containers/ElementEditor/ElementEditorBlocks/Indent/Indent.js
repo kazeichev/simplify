@@ -1,20 +1,21 @@
 import React from 'react';
 import './Indent.scss';
 import {Row, Col} from "react-bootstrap";
+import PropTypes from 'prop-types';
 
 export default class Indent extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            paddingLeft: this.props.styles.paddingLeft,
-            paddingRight: this.props.styles.paddingRight,
-            paddingTop: this.props.styles.paddingTop,
-            paddingBottom: this.props.styles.paddingBottom,
-            marginLeft: this.props.styles.marginLeft,
-            marginRight: this.props.styles.marginRight,
-            marginTop: this.props.styles.marginTop,
-            marginBottom: this.props.styles.marginBottom
+            paddingLeft: this.props.element.options.styles.paddingLeft,
+            paddingRight: this.props.element.options.styles.paddingRight,
+            paddingTop: this.props.element.options.styles.paddingTop,
+            paddingBottom: this.props.element.options.styles.paddingBottom,
+            marginLeft: this.props.element.options.styles.marginLeft,
+            marginRight: this.props.element.options.styles.marginRight,
+            marginTop: this.props.element.options.styles.marginTop,
+            marginBottom: this.props.element.options.styles.marginBottom
         }
     }
 
@@ -23,10 +24,13 @@ export default class Indent extends React.Component {
             [indent]: value + 'px'
         });
 
-        this.props.callback({
-            prop: indent,
-            value: value + 'px'
-        }, 'style')
+        this.props.callback(
+            this.props.element,
+            {
+                path: `options.styles.${indent}`,
+                value: value + 'px'
+            }
+        )
     }
 
     render() {
@@ -46,7 +50,7 @@ export default class Indent extends React.Component {
 
         return (
             <div className="element-editor_section-content-block indent">
-                <h6 style={{color: 'rgba(103, 106, 108, 0.4)', fontSize: '14px', margin: '20px 0'}}>Внутренние</h6>
+                <h6>Внутренние</h6>
                 {
                     paddings.map((element, i) => {
                         return (
@@ -72,7 +76,7 @@ export default class Indent extends React.Component {
                     })
                 }
 
-                <h6 style={{color: 'rgba(103, 106, 108, 0.4)', fontSize: '14px', margin: '20px 0'}}>Внешние</h6>
+                <h6>Внешние</h6>
                 {
                     margins.map((element, i) => {
                         return (
@@ -101,3 +105,21 @@ export default class Indent extends React.Component {
         );
     }
 }
+
+Indent.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                paddingLeft: PropTypes.string,
+                paddingRight: PropTypes.string,
+                paddingTop: PropTypes.string,
+                paddingBottom: PropTypes.string,
+                marginLeft: PropTypes.string,
+                marginRight: PropTypes.string,
+                marginTop: PropTypes.string,
+                marginBottom: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

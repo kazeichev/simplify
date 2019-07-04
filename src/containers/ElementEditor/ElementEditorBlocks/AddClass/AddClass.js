@@ -1,13 +1,14 @@
 import React from 'react';
 import {Row, Col} from "react-bootstrap";
 import './AddClass.scss';
+import PropTypes from 'prop-types';
 
 export default class AddClass extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            className: this.props.options.className,
+            className: this.props.element.options.className,
             isError: false,
             isSuccess: false
         }
@@ -25,10 +26,13 @@ export default class AddClass extends React.Component {
                 isSuccess: true,
                 isError: false
             }, () => {
-                this.props.callback({
-                    prop: 'className',
-                    value: value
-                }, 'options');
+                this.props.callback(
+                    this.props.element,
+                    {
+                        path: 'options.className',
+                        value: value
+                    }
+                );
 
                 setTimeout(() => {
                     this.setState({isSuccess: false})
@@ -71,3 +75,14 @@ export default class AddClass extends React.Component {
         );
     }
 }
+
+AddClass.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                className: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

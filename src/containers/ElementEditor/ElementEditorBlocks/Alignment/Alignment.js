@@ -2,6 +2,7 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAlignLeft, faAlignCenter, faAlignRight} from "@fortawesome/free-solid-svg-icons";
 import './Alignment.scss';
+import PropTypes from 'prop-types';
 
 export default class Alignment extends React.Component {
 
@@ -12,7 +13,7 @@ export default class Alignment extends React.Component {
         super(props);
 
         this.state = {
-            textAlign: this.props.styles.textAlign
+            textAlign: this.props.element.options.styles.textAlign
         }
     }
 
@@ -24,10 +25,13 @@ export default class Alignment extends React.Component {
             textAlign: value
         });
 
-        this.props.callback({
-            prop: 'textAlign',
-            value: value
-        }, 'style');
+        this.props.callback(
+            this.props.element,
+            {
+                path: 'options.styles.textAlign',
+                value: value
+            }
+        );
     }
 
     /**
@@ -49,3 +53,14 @@ export default class Alignment extends React.Component {
         );
     }
 }
+
+Alignment.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                textAlign: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};

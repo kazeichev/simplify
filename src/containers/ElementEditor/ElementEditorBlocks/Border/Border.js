@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row} from "react-bootstrap";
 import {ChromePicker} from 'react-color'
+import PropTypes from 'prop-types';
 
 import './Border.scss';
 
@@ -13,13 +14,13 @@ export default class Border extends React.Component {
         super(props);
 
         this.state = {
-            borderLeft: this.props.styles.borderLeft,
-            borderRight: this.props.styles.borderRight,
-            borderTop: this.props.styles.borderTop,
-            borderBottom: this.props.styles.borderBottom,
+            borderLeft: this.props.element.options.styles.borderLeft,
+            borderRight: this.props.element.options.styles.borderRight,
+            borderTop: this.props.element.options.styles.borderTop,
+            borderBottom: this.props.element.options.styles.borderBottom,
             displayColorPicker: false,
-            borderColor: this.props.styles.borderColor,
-            borderRadius: this.props.styles.borderRadius
+            borderColor: this.props.element.options.styles.borderColor,
+            borderRadius: this.props.element.options.styles.borderRadius
         }
     }
 
@@ -32,10 +33,13 @@ export default class Border extends React.Component {
             [borderType]: value + (borderType === 'borderRadius' ? 'px' : 'px solid')
         });
 
-        this.props.callback({
-            prop: [borderType],
-            value: value + (borderType === 'borderRadius' ? 'px' : 'px solid')
-        }, 'style');
+        this.props.callback(
+            this.props.element,
+            {
+                path: `options.styles.${borderType}`,
+                value: value + (borderType === 'borderRadius' ? 'px' : 'px solid')
+            }
+        );
     }
 
     handleClick = () => {
@@ -58,10 +62,13 @@ export default class Border extends React.Component {
             borderColor: color.hex
         });
 
-        this.props.callback({
-            prop: 'borderColor',
-            value: color.hex
-        }, 'style');
+        this.props.callback(
+            this.props.element,
+            {
+                path: 'options.styles.borderColor',
+                value: color.hex
+            }
+        );
     };
 
     /**
@@ -178,3 +185,20 @@ export default class Border extends React.Component {
         );
     }
 }
+
+
+Border.propTypes = {
+    element: PropTypes.shape({
+        options: PropTypes.shape({
+            styles: PropTypes.shape({
+                borderLeft: PropTypes.string,
+                borderRight: PropTypes.string,
+                borderTop: PropTypes.string,
+                borderBottom: PropTypes.string,
+                borderColor: PropTypes.string,
+                borderRadius: PropTypes.string
+            })
+        })
+    }),
+    callback: PropTypes.func.isRequired
+};
