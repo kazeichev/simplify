@@ -22,8 +22,14 @@ class Editor extends Component {
                         groupName="1"
                         getChildPayload={i => this.props.items[i]}
                         onDrop={e => this.props.dropToEditor(e)}
-                        lockAxis="y"
-                        dragHandleSelector=".element-drag-handler"
+                        onDropReady={e => {
+                            // Добавляем элементу флаг, что мы дропнули его вне ряда
+                            return e.payload.isInsideRow = false;
+                        }}
+                        dropPlaceholder={{
+                            animationDuration: 150,
+                            className: 'element-drop-preview'
+                        }}
                     >
                         {
                             this.props.items ? this.props.items.map((element, i) => {

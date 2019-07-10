@@ -3,18 +3,12 @@
 	position: relative;
 	color: rgb(103, 106, 108);
 	margin: 5px 0;
+	cursor: pointer;
 
-	.editor-control-element_tooltips {
-		display: none;
-		position: absolute;
-		top: 0;
-		right: 0;
-		background-color: rgba(255, 255, 255, 0.9);
-
-		span {
-			margin: 5px;
-			cursor: pointer;
-		}
+	&.hovered {
+		padding: 0;
+		border: 1px dashed rgb(103, 106, 108);
+		border-radius: 5px;
 	}
 
 	p {

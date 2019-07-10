@@ -15,14 +15,13 @@ export default class TextEditor extends Component {
     constructor(props) {
         super(props);
 
-        const html = props.element.options.text;
+        const html = this.props.element.options.text;
         const contentBlock = htmlToDraft(html);
         let editorState = null;
 
         if (contentBlock) {
             const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
             editorState = EditorState.createWithContent(contentState);
-
         } else {
             editorState = EditorState.createEmpty();
         }
@@ -51,6 +50,7 @@ export default class TextEditor extends Component {
             editorState: editorState
         });
     };
+
 
     render() {
         const { editorState } = this.state;

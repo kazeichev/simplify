@@ -13,10 +13,12 @@ import update from "immutability-helper";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLongArrowAltRight} from "@fortawesome/free-solid-svg-icons";
+import {faCopy, faTrashAlt} from "@fortawesome/free-regular-svg-icons/index";
 
-import Models from '../../Models';
+import * as models from '../../Models';
 import {connect} from "react-redux";
 import {closeEditableElement} from "../../actions/toolbarActions";
+import {copyElement, removeElement} from "../../actions/editorActions";
 import {bindActionCreators} from "redux";
 
 class ToolBar extends Component {
@@ -27,31 +29,53 @@ class ToolBar extends Component {
     constructor(props) {
         super(props);
 
-        let items = Models.map((model) => {
-            return model.getDefaultParameters()
-        });
-
         this.state = {
-            items: items
+            rows: models.rows.map(model => model.getDefaultParameters()),
+            elements: models.elements.map(model => model.getDefaultParameters()),
+            options: models.options.map(model => model.getDefaultParameters())
         };
     }
 
     /**
+     *
      * @param e
+     * @param option
      */
-    updateId(e) {
+    updateId(e, option) {
         const element = e.payload;
-        let index = this.state.items.findIndex(x => x.id === element.id);
-        if (index === -1) index = 1;
-        this.setState(update(this.state, {
-            items: {
-                [index]: {
-                    $merge: {
-                        id: shortid.generate()
+        let state = this.state,
+            index = this.state[option].findIndex(x => x.id === element.id);
+
+        if (index !== -1) {
+            if (element.children) {
+
+                let newChildren = element.children.map(el => {
+                    let element = {...el};
+                    element.id = shortid.generate();
+                    return element;
+                });
+
+                state = update(state, {
+                    [option]: {
+                        [index]: {
+                            $merge: {
+                                children: newChildren
+                            }
+                        }
+                    }
+                });
+            }
+
+            this.setState(update(state, {
+                [option]: {
+                    [index]: {
+                        $merge: {
+                            id: shortid.generate()
+                        }
                     }
                 }
-            }
-        }));
+            }));
+        }
     }
 
     /**
@@ -68,25 +92,24 @@ class ToolBar extends Component {
                                     <Container
                                         groupName="1"
                                         behaviour="copy"
-                                        getChildPayload={i => this.state.items[i]}
-                                        onDragStart={e => this.updateId(e)}
+                                        getChildPayload={i => this.state.rows[i]}
+                                        onDragStart={e => {
+                                            if (e.payload && e.payload.containerType === TYPE_TOOLBAR) {
+                                                this.updateId(e, 'rows');
+                                            }
+                                        }}
                                     >
                                         {
-                                            this.state.items.map((element, i) => {
-                                                const tabRow = ['RowElement'];
-                                                if (tabRow.includes(element.type)) {
-                                                    return (
-                                                        <Draggable
-                                                            key={i}
-                                                            style={{display: 'inline-block', padding: '10px'}}
-                                                            className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
-                                                        >
-                                                            {createComponent(element, TYPE_TOOLBAR)}
-                                                        </Draggable>
-                                                    );
-                                                } else {
-                                                    return null;
-                                                }
+                                            this.state.rows.map((element, i) => {
+                                                return (
+                                                    <Draggable
+                                                        key={i}
+                                                        style={{display: 'inline-block', padding: '10px'}}
+                                                        className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                                                    >
+                                                        {createComponent(element, TYPE_TOOLBAR)}
+                                                    </Draggable>
+                                                );
                                             })
                                         }
                                     </Container>
@@ -95,25 +118,24 @@ class ToolBar extends Component {
                                     <Container
                                         groupName="1"
                                         behaviour="copy"
-                                        getChildPayload={i => this.state.items[i]}
-                                        onDragStart={e => this.updateId(e)}
+                                        getChildPayload={i => this.state.elements[i]}
+                                        onDragStart={e => {
+                                            if (e.payload && e.payload.containerType === TYPE_TOOLBAR) {
+                                                this.updateId(e, 'elements')
+                                            }
+                                        }}
                                     >
                                         {
-                                            this.state.items.map((element, i) => {
-                                                const elementsRow = ['TextElement', 'ButtonElement'];
-                                                if (elementsRow.includes(element.type)) {
-                                                    return (
-                                                        <Draggable
-                                                            key={i}
-                                                            style={{display: 'inline-block', padding: '10px'}}
-                                                            className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-                                                        >
-                                                            {createComponent(element, TYPE_TOOLBAR)}
-                                                        </Draggable>
-                                                    );
-                                                } else {
-                                                    return null;
-                                                }
+                                            this.state.elements.map((element, i) => {
+                                                return (
+                                                    <Draggable
+                                                        key={i}
+                                                        style={{display: 'inline-block', padding: '10px'}}
+                                                        className="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
+                                                    >
+                                                        {createComponent(element, TYPE_TOOLBAR)}
+                                                    </Draggable>
+                                                );
                                             })
                                         }
                                     </Container>
@@ -122,10 +144,37 @@ class ToolBar extends Component {
                                 </Tab>
                             </Tabs>
                             : <div className="toolbar_editor-wrapper">
-                                <div className="toolbar_editor-icon-back" title="Закрыть" onClick={
-                                    () => this.props.closeEditableElement()
-                                }>
-                                    <FontAwesomeIcon icon={faLongArrowAltRight} size="2x"/>
+                                <div className="toolbar_editor-menu">
+                                    <div
+                                        className="toolbar_editor-icon icon-copy"
+                                        title="Копировать"
+                                        onClick={
+                                            () => this.props.copyEditableElement(this.props.editableElement)
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faCopy} size="2x"/>
+                                    </div>
+                                    <div
+                                        className="toolbar_editor-icon icon-remove"
+                                        title="Удалить"
+                                        onClick={
+                                            () => {
+                                                this.props.closeEditableElement();
+                                                this.props.removeEditableElement(this.props.editableElement);
+                                            }
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faTrashAlt} size="2x"/>
+                                    </div>
+                                    <div
+                                        className="toolbar_editor-icon icon-back"
+                                        title="Закрыть"
+                                        onClick={
+                                            () => this.props.closeEditableElement()
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={faLongArrowAltRight} size="2x"/>
+                                    </div>
                                 </div>
                                 {createEditor(this.props.editableElement)}
                             </div>
@@ -152,7 +201,9 @@ const mapStateToProps = state => {
  */
 const mapActionsToProps = dispatch => {
     return {
-        closeEditableElement: bindActionCreators(closeEditableElement, dispatch)
+        closeEditableElement: bindActionCreators(closeEditableElement, dispatch),
+        copyEditableElement: bindActionCreators(copyElement, dispatch),
+        removeEditableElement: bindActionCreators(removeElement, dispatch)
     }
 };
 
